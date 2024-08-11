@@ -4,7 +4,7 @@ import { Box, Container, Typography, Link } from '@mui/material';
 function Footer() {
     return (
         <Box component="footer" sx={{ bgcolor: 'background.paper', py: 6 }}>
-            <Container maxWidth="lg">
+            <Container maxWidth="laptop">
                 <Typography variant="body2" color="text.secondary" align="center">
                     {'Copyright © '}
                     <Link color="inherit" href="https://voz.vn/">

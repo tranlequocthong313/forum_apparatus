@@ -1,10 +1,13 @@
 import React from 'react';
 import { Grid, Card, CardContent, Typography, List, ListItem, ListItemText, Divider } from '@mui/material';
+import ForumCategoriesList from "./forum/ForumCategoriesList";
 
 function MainContent() {
     return (
-        <Grid container spacing={3}>
-            <Grid item xs={12} md={8}>
+        <Grid container spacing={2}>
+            <Grid item mobile={12} laptop={10}>
+                <ForumCategoriesList />
+
                 <Card sx={{ mb: 3 }}>
                     <CardContent>
                         <Typography variant="h5" component="div">
@@ -29,7 +32,7 @@ function MainContent() {
                     ))}
                 </List>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item mobile={0} laptop={2}>
                 <Card sx={{ mb: 3 }}>
                     <CardContent>
                         <Typography variant="h6">Login/Register</Typography>

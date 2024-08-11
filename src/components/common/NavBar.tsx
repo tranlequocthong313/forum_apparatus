@@ -17,6 +17,7 @@ function NavBar() {
                 textColor="primary"
                 variant="scrollable"
                 scrollButtons="auto"
+
             >
                 <Tab label="Trang chủ" />
                 <Tab label="Diễn đàn" />

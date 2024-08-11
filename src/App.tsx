@@ -24,7 +24,7 @@ function App() {
             <Header />
             <NavBar />
             <SplitButton />
-            <Container maxWidth="lg" sx={{ mt: 3, mb: 3 }}>
+            <Container maxWidth="laptop" sx={{ mt: 3, mb: 3 }}>
                 <MainContent />
             </Container>
             <Footer />
