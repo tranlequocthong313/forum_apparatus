@@ -4,14 +4,15 @@ import AuthModal from '../auth/AuthModal'
 import { UserContext, UserDispatchContext } from '../../contexts/UserContext'
 import logo from '../../assets/img/logo-ct.png'
 import { useNotifications } from '@toolpad/core'
+import { useUser, useUserDispatch } from '../../hooks/useUser'
 
-const settings = ['Dashboard', 'Logout']
+const settings = ['Dashboard', 'Đăng xuất']
 
 function Header() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
-  const user = useContext(UserContext)
-  const dispatch = useContext(UserDispatchContext)
+  const user = useUser()
+  const dispatch = useUserDispatch()
   const notifications = useNotifications()
 
   const handleOpenAuthModal = () => {
@@ -31,7 +32,7 @@ function Header() {
       case 'Dashboard':
         window.open('http://localhost:8080', '_blank')
         break
-      case 'Logout':
+      case 'Đăng xuất':
         if (dispatch) {
           dispatch({
             type: 'LOGOUT',

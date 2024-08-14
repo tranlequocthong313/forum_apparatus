@@ -23,6 +23,15 @@ export interface UserRegisterState {
     avatar?: File | string,
 }
 
+export interface ThreadState {
+    id: number,
+    title: string,
+    content: string,
+    createdAt: string,
+    updatedAt: string,
+    user: UserState
+}
+
 export type UserAction =
     { type: 'LOGIN'; payload: UserState } |
     { type: 'LOGOUT' } |

@@ -1,10 +1,13 @@
 import React from 'react'
 import { Grid, Card, CardContent, Typography, List, ListItem, ListItemText, Divider } from '@mui/material'
+import ForumCategoriesList from './forum/ForumCategoriesList'
 
 function MainContent() {
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={12} md={12}>
+    <Grid container spacing={2}>
+      <Grid item mobile={12} laptop={10}>
+        <ForumCategoriesList />
+
         <Card sx={{ mb: 3 }}>
           <CardContent>
             <Typography variant="h5" component="div">
@@ -23,6 +26,26 @@ function MainContent() {
             </React.Fragment>
           ))}
         </List>
+      </Grid>
+      <Grid item mobile={0} laptop={2}>
+        <Card sx={{ mb: 3 }}>
+          <CardContent>
+            <Typography variant="h6">Login/Register</Typography>
+            {/* Add login form or buttons here */}
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent>
+            <Typography variant="h6">Hot Topics</Typography>
+            <List>
+              {[1, 2, 3].map((item) => (
+                <ListItem key={item}>
+                  <ListItemText primary={`Hot Topic ${item}`} />
+                </ListItem>
+              ))}
+            </List>
+          </CardContent>
+        </Card>
       </Grid>
     </Grid>
   )

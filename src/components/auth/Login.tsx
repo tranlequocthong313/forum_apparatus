@@ -6,6 +6,7 @@ import { save } from 'react-cookies'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import axios, { AxiosError } from 'axios'
 import { useNotifications } from '@toolpad/core'
+import { useUserDispatch } from '../../hooks/useUser'
 
 interface LoginModalProps {
   open: boolean
@@ -16,7 +17,7 @@ interface LoginModalProps {
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose, onSwitchToRegister }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const dispatch = useContext(UserDispatchContext)
+  const dispatch = useUserDispatch()
   const notifications = useNotifications()
 
   const login = async (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
