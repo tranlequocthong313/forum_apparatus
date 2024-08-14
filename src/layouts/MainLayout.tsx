@@ -10,7 +10,7 @@ const MainLayout: React.FC = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <Header />
             <NavBar />
-            <Container component="main" sx={{ flexGrow: 1, py: 3 }}>
+            <Container  component="main" sx={{ flexGrow: 1, py: 3, width: '80%' }}>
                 <Outlet />
             </Container>
             <Footer />

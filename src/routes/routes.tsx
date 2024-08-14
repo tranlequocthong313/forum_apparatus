@@ -1,6 +1,7 @@
 import React from 'react';
 import {RouteObject} from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
+import NotFound from "../pages/NotFound";
 
 
 const Home = React.lazy(() => import('../pages/Home'));
@@ -54,10 +55,10 @@ const routes: AppRoute[] = [
                 requireAuth: false
 
             },
-            // {
-            //     path: '*',
-            //     element: <NotFound />,
-            // },
+            {
+                path: '*',
+                element: <NotFound />,
+            },
         ],
     },
 ];

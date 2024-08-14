@@ -1,7 +1,12 @@
+import React from "react";
+import {Box, Typography} from "@mui/material";
 
-function NotFound() {
+const NotFound: React.FC = () => {
     return (
-        <h1>NotFound</h1>
+        <Box textAlign="center" mt={5}>
+            <Typography variant="h1">404</Typography>
+            <Typography variant="h5">Page Not Found</Typography>
+        </Box>
     );
-}
+};
 export default NotFound;
