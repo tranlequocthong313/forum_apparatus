@@ -1,5 +1,6 @@
 import React from 'react';
 import {RouteObject} from "react-router-dom";
+import MainLayout from "../layouts/MainLayout";
 
 
 const Home = React.lazy(() => import('../pages/Home'));
@@ -11,17 +12,54 @@ const Register = React.lazy(() => import('../pages/Register'));
 // const NotFound = React.lazy(() => import('../components/NotFound'));
 
 
-export type AppRoute = RouteObject & {
+export type AppRoute = Omit<RouteObject, 'children'> & {
     requireAuth?: boolean;
     children?: AppRoute[];
 }
 
 const routes: AppRoute[] = [
-    { path: '/', element: </>, requireAuth: false },
-    { path: '/forums', element: <Forums/>, requireAuth: true },
-    { path: '/threads', element: <Threads/>, requireAuth: true },
-    { path: '/threads/:id', element: <ThreadDetails/>, requireAuth: true },
-    { path: '/login', element: <Login/>, requireAuth: false },
-    { path: '/register', element: <Register/>, requireAuth: false },
-    { path: '*', element: <NotFound/>, requireAuth: false },
-]
+    {
+        path: '/',
+        element: <MainLayout />,
+        children: [
+            {
+                path: '',
+                element: <Home />,
+                requireAuth: false
+            },
+            {
+                path: 'forums',
+                element: <Forums />,
+                requireAuth: false
+            },
+            {
+                path: 'threads',
+                element: <Threads />,
+                requireAuth: false,
+            },
+            {
+                path: 'threads/:id',
+                element: <ThreadDetails />,
+                requireAuth: false,
+            },
+            {
+                path: 'login',
+                element: <Login />,
+                requireAuth: false
+
+            },
+            {
+                path: 'register',
+                element: <Register />,
+                requireAuth: false
+
+            },
+            // {
+            //     path: '*',
+            //     element: <NotFound />,
+            // },
+        ],
+    },
+];
+
+export default routes;

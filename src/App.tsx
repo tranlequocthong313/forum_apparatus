@@ -29,7 +29,18 @@ function App() {
             </Container>
             <Footer />
         </ThemeProvider>
-    );
+
+
+    // <ThemeProvider theme={theme}>
+    //     <CssBaseline />
+    //     <AuthProvider>
+    //         <Router>
+    //             <AppRouter />
+    //         </Router>
+    //     </AuthProvider>
+    // </ThemeProvider>
+
+);
 }
 
 export default App;
