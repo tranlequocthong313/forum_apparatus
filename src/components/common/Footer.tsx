@@ -7,8 +7,8 @@ function Footer() {
       <Container maxWidth="laptop">
         <Typography variant="body2" color="text.secondary" align="center">
           {'Copyright © '}
-          <Link color="inherit" href="https://voz.vn/">
-            VOZ
+          <Link color="inherit" href="http://localhost:8080">
+            Apparatus
           </Link>{' '}
           {new Date().getFullYear()}
           {'.'}

@@ -23,6 +23,20 @@ export interface UserRegisterState {
     avatar?: File | string,
 }
 
+
+export interface ForumCategory {
+    id: number,
+    name: string
+}
+
+export interface ThreadCategoryState {
+    id: number,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    forumCategory: ForumCategory
+}
+
 export interface ThreadState {
     id: number,
     title: string,
@@ -30,6 +44,7 @@ export interface ThreadState {
     createdAt: string,
     updatedAt: string,
     user: UserState
+    threadCategory: ThreadCategoryState
 }
 
 export type UserAction =

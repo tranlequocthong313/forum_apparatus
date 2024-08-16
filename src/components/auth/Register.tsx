@@ -15,7 +15,6 @@ import {
 } from '@mui/material'
 import { UserRegisterState } from '../../types'
 import APIs, { authApis } from '../../configs/api'
-import { useNotifications } from '@toolpad/core'
 
 interface RegisterModalProps {
   open: boolean
@@ -36,7 +35,6 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ open, onClose, onSwitchTo
     avatar: undefined,
   })
   const [errors, setErrors] = useState<string[]>([])
-  const notifications = useNotifications()
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -93,10 +91,6 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ open, onClose, onSwitchTo
           },
         })
         if (res.status === 200) {
-          notifications.show('Đăng ký thành công', {
-            autoHideDuration: 3000,
-            severity: 'success',
-          })
           onSwitchToLogin()
         }
       } catch (error) {

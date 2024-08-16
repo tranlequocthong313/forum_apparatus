@@ -1,11 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, Typography, Link } from '@mui/material'
-import { UserDispatchContext } from '../../contexts/UserContext'
 import APIs, { authApis } from '../../configs/api'
 import { save } from 'react-cookies'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import axios, { AxiosError } from 'axios'
-import { useNotifications } from '@toolpad/core'
 import { useUserDispatch } from '../../hooks/useUser'
 
 interface LoginModalProps {
@@ -18,7 +16,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose, onSwitchToRegist
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useUserDispatch()
-  const notifications = useNotifications()
 
   const login = async (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     event.preventDefault()
@@ -37,10 +34,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose, onSwitchToRegist
           })
         }
         onClose()
-        notifications.show('Đăng nhập thành công', {
-          autoHideDuration: 3000,
-          severity: 'success',
-        })
       }
     } catch (error: Error | AxiosError | unknown) {
       console.error(error)
@@ -49,10 +42,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose, onSwitchToRegist
         error.response?.data.status === 400 &&
         error.response?.data.message === 'Username or password is incorrect'
       ) {
-        notifications.show('Tài khoản hoặc mật khẩu không chính xác', {
-          autoHideDuration: 3000,
-          severity: 'error',
-        })
       }
     }
   }

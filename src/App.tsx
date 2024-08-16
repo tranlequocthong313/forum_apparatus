@@ -12,7 +12,6 @@ import Header from './components/common/Header'
 import NavBar from './components/common/NavBar'
 import MainContent from './components/MainContent'
 import Footer from './components/common/Footer'
-<<<<<<< Updated upstream
 import SplitButton from './components/SplitButton'
 import ErrorBoundary from './components/common/ErrorBoundary'
 import { AuthProvider } from './contexts/AuthContext'
@@ -20,14 +19,8 @@ import { BrowserRouter, Route, Router, Routes } from 'react-router-dom'
 import Loading from './components/common/Loading'
 import routes, { AppRoute } from './routes/routes'
 import ProtectedRoute from './routes/ProtectedRoute'
-
-=======
 import UserProvider from './providers/UserProvider'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import ThreadList from './components/thread/ThreadList'
-import ThreadDetails from './components/thread/ThreadDetails'
-// import SplitButton from './components/SplitButton'
->>>>>>> Stashed changes
+
 // import './App.css';
 
 const renderRoutes = (routes: AppRoute[]): React.ReactNode => {
@@ -44,29 +37,20 @@ const renderRoutes = (routes: AppRoute[]): React.ReactNode => {
 
 function App() {
   return (
-    // <ThemeProvider theme={theme}>
-    //     <CssBaseline/>
-    //     <Header/>
-    //     <NavBar/>
-    //     <SplitButton/>
-    //     <Container maxWidth="laptop" sx={{mt: 3, mb: 3}}>
-    //         <MainContent/>
-    //     </Container>
-    //     <Footer/>
-    // </ThemeProvider>
-
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <ErrorBoundary>
-        <AuthProvider>
-          <BrowserRouter>
-            <Suspense fallback={<Loading />}>
-              <Routes>{renderRoutes(routes)}</Routes>
-            </Suspense>
-          </BrowserRouter>
-        </AuthProvider>
-      </ErrorBoundary>
-    </ThemeProvider>
+    <UserProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <ErrorBoundary>
+          <AuthProvider>
+            <BrowserRouter>
+              <Suspense fallback={<Loading />}>
+                <Routes>{renderRoutes(routes)}</Routes>
+              </Suspense>
+            </BrowserRouter>
+          </AuthProvider>
+        </ErrorBoundary>
+      </ThemeProvider>
+    </UserProvider>
   )
 }
 

@@ -17,8 +17,16 @@ export const initialUserState: UserState = {
 }
 
 const userReducer = (state: UserState, action: UserAction): UserState => {
+  console.group(action.type)
+  console.log(action)
+  console.groupEnd()
   switch (action.type) {
     case 'CURRENT':
+      return {
+        ...state,
+        ...action.payload,
+        isLoggedIn: true,
+      }
     case 'LOGIN':
       return {
         ...state,
