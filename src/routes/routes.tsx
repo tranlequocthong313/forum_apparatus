@@ -26,7 +26,7 @@ const routes: AppRoute[] = [
         children: [
             {
                 path: '',
-                element: <ThreadDetails />,
+                element: <Home />,
                 requireAuth: false
             },
             {

@@ -54,7 +54,7 @@ const ThreadItem: React.FC<ThreadItemProps> = ({ thread }) => {
             Trả lời:
           </Typography>
           <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            69
+            0
           </Typography>
         </Box>
 
@@ -62,7 +62,7 @@ const ThreadItem: React.FC<ThreadItemProps> = ({ thread }) => {
           <Typography variant="body1" sx={{ marginRight: '8px' }}>
             Lượt xem:
           </Typography>
-          <Typography variant="body1">69</Typography>
+          <Typography variant="body1">0</Typography>
         </Box>
       </Box>
       <Box

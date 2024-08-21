@@ -1,17 +1,20 @@
 export interface ForumItemModel {
-    id: number;
-    title: string;
-    threadStatistic: number;
-    messageStatistic: number;
-    latestThread: {
-        title: string;
-        time: string;
-        author: string;
-    };
+	id: number;
+	name: string;
+	createdAt: number;
+	updatedAt: number;
+	threadStatistic?: number;
+	messageStatistic?: number;
+	forumCategory: { id: number, name: string };
+	latestThread?: {
+		title: string;
+		time: string;
+		author: string;
+	};
 }
 
 export interface ForumCategoryModel {
-    id: number;
-    title: string;
-    forums: ForumItemModel[];
+	id: number;
+	name: string;
+	forums: ForumItemModel[];
 }
