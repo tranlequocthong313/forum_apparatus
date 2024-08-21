@@ -1,5 +1,5 @@
 import {Box} from "@mui/material";
-import {ForumItemModel} from "../../types/forum";
+import {ForumItemModel} from "../../../types/forum";
 import React from "react";
 import ForumItem from "./ForumItem";
 

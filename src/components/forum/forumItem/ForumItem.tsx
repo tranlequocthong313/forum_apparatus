@@ -3,7 +3,7 @@ import {Box, Grid, Typography} from "@mui/material";
 import ForumItemTitle from "./ForumItemTitle";
 import ForumItemStatistic from "./ForumItemStatistic";
 import ForumLatestThread from "./ForumLatestThread";
-import {ForumItemModel} from "../../types/forum";
+import {ForumItemModel} from "../../../types/forum";
 import React from "react";
 
 

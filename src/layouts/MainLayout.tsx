@@ -10,7 +10,18 @@ const MainLayout: React.FC = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             <Header />
             <NavBar />
-            <Container  component="main" sx={{ flexGrow: 1, py: 3, width: '80%' }}>
+            <Container component="main" sx={{ flexGrow: 1, py: 3,
+                width: {
+                    laptop: '100%',
+                    desktop: '65%',
+                },
+                px: {
+                    mobile: 0,
+                    table: 0,
+                    laptop: 0,
+                    desktop: 2
+                }
+            }}>
                 <Outlet />
             </Container>
             <Footer />

@@ -1,6 +1,6 @@
 import {Box} from "@mui/material";
 import ForumCategory from "./forumCategory/ForumCategory";
-import {ForumCategoryModel} from "../types/forum";
+import {ForumCategoryModel} from "../../types/forum";
 
 const categories: ForumCategoryModel[] = [
     {

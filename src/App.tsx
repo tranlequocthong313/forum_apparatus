@@ -1,7 +1,7 @@
-import React, {Suspense} from 'react';
+import React, {Suspense, useState} from 'react';
 import {Container, ThemeProvider} from '@mui/material';
 import {CssBaseline} from "@mui/material";
-import theme from "./theme";
+import {lightTheme} from "./theme";
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -43,6 +43,12 @@ const renderRoutes = (routes: AppRoute[]): React.ReactNode => {
 
 
 function App() {
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
+    const toggleTheme = () => {
+        setIsDarkMode(!isDarkMode);
+    };
+
     return (
         // <ThemeProvider theme={theme}>
         //     <CssBaseline/>
@@ -56,7 +62,7 @@ function App() {
         // </ThemeProvider>
 
 
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={lightTheme}>
             <CssBaseline />
             <ErrorBoundary>
                 <AuthProvider>

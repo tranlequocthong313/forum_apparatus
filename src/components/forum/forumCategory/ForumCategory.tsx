@@ -1,6 +1,6 @@
 import {Box} from "@mui/material";
 import ForumCategoryHeader from "./ForumCategoryHeader";
-import {ForumCategoryModel} from "../../types/forum";
+import {ForumCategoryModel} from "../../../types/forum";
 import React from "react";
 import ForumItemsList from "../forumItem/ForumItemsList";
 import {styled} from "@mui/material/styles";
