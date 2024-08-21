@@ -2,6 +2,7 @@ import React from 'react';
 import {RouteObject} from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import NotFound from "../pages/NotFound";
+import PostThread from "../pages/PostThread";
 
 
 const Home = React.lazy(() => import('../pages/Home'));
@@ -25,7 +26,7 @@ const routes: AppRoute[] = [
         children: [
             {
                 path: '',
-                element: <Home />,
+                element: <ThreadDetails />,
                 requireAuth: false
             },
             {
@@ -54,6 +55,11 @@ const routes: AppRoute[] = [
                 element: <Register />,
                 requireAuth: false
 
+            },
+            {
+                path: 'post-thread',
+                element: <PostThread />,
+                requireAuth: false
             },
             {
                 path: '*',
