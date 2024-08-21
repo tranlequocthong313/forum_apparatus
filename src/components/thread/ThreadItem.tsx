@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Avatar, Link, Typography, IconButton } from '@mui/material'
+import { Box, Avatar, Typography, IconButton } from '@mui/material'
 import LatestThreadItem from '../forum/forumItem/ForumLatestThread'
 import { formatDistanceToNow } from 'date-fns'
 
