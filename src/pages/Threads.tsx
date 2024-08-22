@@ -7,13 +7,14 @@ import SplitButton from '../components/SplitButton'
 import ForumCategoryHeader from '../components/forum/forumCategory/ForumCategoryHeader'
 import HelpIcon from '@mui/icons-material/Help'
 import { Facebook, LinkedIn, Reddit, Twitter } from '@mui/icons-material'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const Threads: React.FC = () => {
 	const location = useLocation();
 	const state = location.state as { title?: string, id?: number };
 	const id = state?.id;
 	const title = state?.title;
+	const navigate = useNavigate()
 
 	const [threads, setThreads] = useState<ThreadState[]>([])
 	const [page, setPage] = useState(1)
@@ -44,6 +45,10 @@ const Threads: React.FC = () => {
 		setPage(page)
 	}
 
+	const postThread = () => {
+		navigate('/post-thread', { state: { threadCategory: id } })
+	}
+
 	return (
 		<Grid container spacing={{ mobile: 1, tablet: 2, laptop: 3 }}>
 			<Grid item laptop={8}>
@@ -68,7 +73,7 @@ const Threads: React.FC = () => {
 			</Grid>
 
 			<Grid item laptop={4}>
-				<SplitButton />
+				<SplitButton onClick={postThread} />
 				<Box sx={{ display: 'flex', alignItems: 'center', marginTop: '120px' }}>
 					<Typography component="h6" sx={{ marginRight: 2 }}>
 						Chia sẻ

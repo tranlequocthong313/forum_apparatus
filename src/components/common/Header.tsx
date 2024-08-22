@@ -4,22 +4,15 @@ import AuthModal from '../auth/AuthModal'
 import logo from '../../assets/img/logo-ct.png'
 import { useUser, useUserDispatch } from '../../hooks/useUser'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../hooks/useAuth'
 
 const settings = ['Dashboard', 'Đăng xuất']
 
 function Header() {
 	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
-	const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
+	const { isAuthModalOpen, handleOpenAuthModal, handleCloseAuthModal } = useAuth()
 	const user = useUser()
 	const dispatch = useUserDispatch()
-
-	const handleOpenAuthModal = () => {
-		setIsAuthModalOpen(true)
-	}
-
-	const handleCloseAuthModal = () => {
-		setIsAuthModalOpen(false)
-	}
 
 	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElUser(event.currentTarget)

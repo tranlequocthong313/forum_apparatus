@@ -14,11 +14,11 @@ import MainContent from "./components/MainContent";
 import Footer from "./components/common/Footer";
 import SplitButton from "./components/SplitButton";
 import ErrorBoundary from './components/common/ErrorBoundary';
-import { AuthProvider } from "./contexts/AuthContext";
 import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import Loading from "./components/common/Loading";
 import routes, { AppRoute } from "./routes/routes";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import FloatingBubble from './components/common/FloatingBubble';
 
 
 
@@ -52,14 +52,13 @@ function App() {
 		<ThemeProvider theme={lightTheme}>
 			<CssBaseline />
 			<ErrorBoundary>
-				<AuthProvider>
-					<BrowserRouter>
-						<Suspense fallback={<Loading />}>
-							<Routes>{renderRoutes(routes)}</Routes>
-						</Suspense>
-					</BrowserRouter>
-				</AuthProvider>
+				<BrowserRouter>
+					<Suspense fallback={<Loading />}>
+						<Routes>{renderRoutes(routes)}</Routes>
+					</Suspense>
+				</BrowserRouter>
 			</ErrorBoundary>
+			<FloatingBubble icon={<img src="https://cdn.haitrieu.com/wp-content/uploads/2022/01/Logo-Zalo-App-Rec.png" alt="Logo" style={{ width: '69px', height: '69px', borderRadius: '50%' }} />} link="https://zalo.me/0909943501" />
 		</ThemeProvider>
 	);
 }

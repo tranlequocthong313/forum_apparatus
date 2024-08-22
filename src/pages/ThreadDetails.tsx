@@ -12,6 +12,7 @@ import { ParentReplyState, ReplyState, ThreadState } from "../types";
 import APIs, { authAPIs, replyApis } from "../configs/api";
 import { useUser } from "../hooks/useUser";
 import CKContent from "../components/ckeditor/CKContent";
+import { useAuth } from "../hooks/useAuth";
 
 interface ThreadMetaProps {
 	threadTitle: string;
@@ -312,6 +313,7 @@ function ThreadDetails() {
 	const [reply, setReply] = useState<undefined | ReplyState>(undefined)
 	const [replies, setReplies] = useState<ReplyState[]>([])
 	const [page, setPage] = useState(1)
+	const { handleOpenAuthModal } = useAuth()
 
 	const user = useUser()
 
@@ -343,6 +345,9 @@ function ThreadDetails() {
 	}
 
 	const onPost = async (replyContent: string) => {
+		if (!user?.isLoggedIn) {
+			return handleOpenAuthModal()
+		}
 		try {
 			const res = await (await authAPIs()).post(replyApis.create, {
 				content: replyContent,

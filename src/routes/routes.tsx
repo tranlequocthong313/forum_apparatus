@@ -6,11 +6,8 @@ import PostThread from "../pages/PostThread";
 
 
 const Home = React.lazy(() => import('../pages/Home'));
-const Forums = React.lazy(() => import('../pages/Forums'));
 const Threads = React.lazy(() => import('../pages/Threads'));
 const ThreadDetails = React.lazy(() => import('../pages/ThreadDetails'));
-const Login = React.lazy(() => import('../pages/Login'));
-const Register = React.lazy(() => import('../pages/Register'));
 // const NotFound = React.lazy(() => import('../components/NotFound'));
 
 
@@ -30,11 +27,6 @@ const routes: AppRoute[] = [
                 requireAuth: false
             },
             {
-                path: 'forums',
-                element: <Forums />,
-                requireAuth: false
-            },
-            {
                 path: 'threads',
                 element: <Threads />,
                 requireAuth: false,
@@ -43,18 +35,6 @@ const routes: AppRoute[] = [
                 path: 'threads/:id',
                 element: <ThreadDetails />,
                 requireAuth: false,
-            },
-            {
-                path: 'login',
-                element: <Login />,
-                requireAuth: false
-
-            },
-            {
-                path: 'register',
-                element: <Register />,
-                requireAuth: false
-
             },
             {
                 path: 'post-thread',

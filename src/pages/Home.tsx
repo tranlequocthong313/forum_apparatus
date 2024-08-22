@@ -28,12 +28,6 @@ function Home() {
         </List>
       </Grid>
       <Grid item mobile={0} laptop={2}>
-        <Card sx={{ mb: 3 }}>
-          <CardContent>
-            <Typography variant="h6">Login/Register</Typography>
-            {/* Add login form or buttons here */}
-          </CardContent>
-        </Card>
         <Card>
           <CardContent>
             <Typography variant="h6">Hot Topics</Typography>
