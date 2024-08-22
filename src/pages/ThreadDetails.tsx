@@ -1,11 +1,17 @@
-import { Avatar, Box, Button, Container, Divider, Grid, Paper, Typography } from "@mui/material";
+import { Avatar, Box, Button, Container, Divider, Grid, Icon, Pagination, Paper, Typography } from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import React from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import CKEditorWrapper from "../components/ckeditor/CKEditorWrapper";
 import LoadingButton from "@mui/lab/LoadingButton";
 import ReplyIcon from '@mui/icons-material/Reply';
+import { useLocation, useParams } from "react-router-dom";
+import { formatDistanceToNow } from "date-fns";
+import { ParentReplyState, ReplyState, ThreadState } from "../types";
+import APIs, { authAPIs, replyApis } from "../configs/api";
+import { useUser } from "../hooks/useUser";
+import CKContent from "../components/ckeditor/CKContent";
 
 interface ThreadMetaProps {
 	threadTitle: string;
@@ -34,18 +40,28 @@ const ThreadMetadata: React.FC<any> = ({ createdBy, postDate }) => {
 
 
 interface CommentProps {
+	id: number;
 	username: string;
 	role: string;
 	avatarUrl: string;
 	commentTime: string;
 	content: string;
+	parentComment?: ParentReplyState;
+	onClickReplyButton?: () => void;
 }
 
 
-const ReplyBox: React.FC<any> = ({ username, avatarUrl }) => {
-	const handleEditorChange = (event: any, editor: any) => {
+const ReplyBox: React.FC<any> = ({ username, avatarUrl, onPost }) => {
+	const [reply, setReply] = useState("")
 
+	const handleEditorChange = (value: any, editor: any) => {
+		setReply(value)
 	}
+
+	const handleClick = () => {
+		onPost(reply)
+	}
+
 	return (
 		<>
 			<Paper elevation={3} sx={{
@@ -123,6 +139,7 @@ const ReplyBox: React.FC<any> = ({ username, avatarUrl }) => {
 
 
 					<LoadingButton
+						onClick={handleClick}
 						color="primary"
 						variant="contained"
 						// type={'submit'}
@@ -144,7 +161,7 @@ const ReplyBox: React.FC<any> = ({ username, avatarUrl }) => {
 	)
 }
 
-const Comment: React.FC<CommentProps> = ({ username, role, avatarUrl, commentTime, content }) => {
+const Comment: React.FC<CommentProps> = ({ id, username, role, avatarUrl, commentTime, content, onClickReplyButton, parentComment }) => {
 	return (
 		<Paper elevation={3} sx={{
 			display: 'flex',
@@ -177,14 +194,22 @@ const Comment: React.FC<CommentProps> = ({ username, role, avatarUrl, commentTim
 				}} component="span">
 					{username}
 				</Typography>
+				<Typography variant="body1" sx={{
+					textAlign: 'center',
+				}} component="span">
+					{role}
+				</Typography>
 			</Box>
 
 			<Box
 				sx={{ flex: 10.5, py: 2, pr: 2, position: 'relative', }}
 			>
-				<Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', marginBottom: 1 }}>
+				<Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 1 }}>
 					<Typography variant="body2" color="textSecondary">
 						{commentTime}
+					</Typography>
+					<Typography variant="body2" color="textSecondary">
+						#{id}
 					</Typography>
 				</Box>
 				<Divider sx={{
@@ -202,11 +227,44 @@ const Comment: React.FC<CommentProps> = ({ username, role, avatarUrl, commentTim
 					}
 
 				}}
-
 				/>
-				<Typography variant="body1">
-					{content}
-				</Typography>
+				{parentComment &&
+					<Box
+						sx={{
+							borderLeft: '2px solid',
+							borderColor: 'primary.main',
+							backgroundColor: 'grey.100',
+							padding: '8px',
+						}}
+					>
+						<Typography
+							variant="body1"
+							sx={{
+								fontWeight: 'bold',
+								letterSpacing: '0.5px',
+								wordBreak: 'break-word',
+								hyphens: 'auto',
+								overflowWrap: 'break-word',
+							}}
+							component="span"
+						>
+							{parentComment.user.username}
+						</Typography>
+						<CKContent content={parentComment.content} />
+					</Box>
+				}
+
+				<Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+					<CKContent content={content} />
+					{onClickReplyButton &&
+						<Box sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }} onClick={onClickReplyButton}>
+							<ReplyIcon color="primary" />
+							<Typography variant="body1" color="primary">
+								Reply
+							</Typography>
+						</Box>
+					}
+				</Box>
 			</Box>
 
 		</Paper>
@@ -241,53 +299,117 @@ const ThreadHeader: React.FC<ThreadMetaProps> = ({ createdBy, postDate, threadTi
 
 
 function ThreadDetails() {
+	const location = useLocation();
+	const state = location.state as { thread: ThreadState };
+	const thread = state.thread
+	const { id } = useParams()
+	const createdAtAgo = formatDistanceToNow(new Date(thread.createdAt), { addSuffix: true })
+	const userRoles: { [key: string]: string } = {
+		"ROLE_ADMIN": "Quản trị viên",
+		"ROLE_WORKER": "Nhân viên",
+		"ROLE_USER": "Thành viên",
+	}
+	const [reply, setReply] = useState<undefined | ReplyState>(undefined)
+	const [replies, setReplies] = useState<ReplyState[]>([])
+	const [page, setPage] = useState(1)
+
+	const user = useUser()
+
+	const repliedTime = (date: number) => {
+		return formatDistanceToNow(new Date(date), { addSuffix: true })
+	}
+
+	useEffect(() => {
+		loadReplies(page)
+	}, [page])
+
+	const loadReplies = async (page: number) => {
+		if (page <= 0) {
+			return
+		}
+		try {
+			const url = `${replyApis.all}?page=${page}&threadid=${id}`
+			const res = await APIs.get(url)
+			if (res.status === 200) {
+				setReplies(res.data)
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	const changePage = (event: ChangeEvent<unknown>, page: number) => {
+		setPage(page)
+	}
+
+	const onPost = async (replyContent: string) => {
+		try {
+			const res = await (await authAPIs()).post(replyApis.create, {
+				content: replyContent,
+				thread: id,
+				reply: reply && reply.id
+			})
+			if (res.status === 201) {
+				setReplies(prev => [...prev, {
+					...res.data,
+					thread,
+					user,
+					reply
+				}])
+			}
+		} catch (error) {
+			console.error(error)
+		} finally {
+			setReply(undefined)
+		}
+	}
+
 	return (
 		<>
 			<ThreadHeader
-				threadTitle='[HN] Tư vấn nâng cấp PC, ngân sách 15 triệu, code, render và stable diffusion (ưu tiên intel)'
-				postDate='Yesterday at 5:13 PM'
-				createdBy='songokukx'
-
-			/>
-			<Comment
-				username="songokukx"
-				role="Junior Member"
-				avatarUrl="https://example.com/avatar.png"
-				commentTime="Yesterday at 5:13 PM"
-				content={`Mình hiện có nhu cầu nâng cấp PC hiện có lên đời chip mới, mục đích là code nhẹ nhàng, render và sử dụng các model stable diffusion
-        Cấu hình case hiện tại như sau:
-        - Main MSI Z170 tomahawk
-        - Cpu intel core i7 6700
-        - Tản cooler master T400i
-        - Ram 24gb 2667
-        - Nguồn XIGMATEK CERBERUS S550 550w
-        - Case aigo skyred + fan led
-
-        Kinh phí tầm 15 triệu, anh em tư vấn giúp nên nâng những phần nào với.
-        Bác nào hỗ trợ vừa nâng cấp vừa trade lại đồ cũ thì tốt
-        Em cảm ơn các bác`}
-			/>
-			<Comment
-				username="songokukx"
-				role="Junior Member"
-				avatarUrl="https://example.com/avatar.png"
-				commentTime="Yesterday at 5:13 PM"
-				content={`Mình hiện có nhu cầu nâng cấp PC hiện có lên đời chip mới, mục đích là code nhẹ nhàng, render và sử dụng các model stable diffusion
-        Cấu hình case hiện tại như sau:
-        - Main MSI Z170 tomahawk
-        - Cpu intel core i7 6700
-        - Tản cooler master T400i
-        - Ram 24gb 2667
-        - Nguồn XIGMATEK CERBERUS S550 550w
-        - Case aigo skyred + fan led
-
-        Kinh phí tầm 15 triệu, anh em tư vấn giúp nên nâng những phần nào với.
-        Bác nào hỗ trợ vừa nâng cấp vừa trade lại đồ cũ thì tốt
-        Em cảm ơn các bác`}
+				threadTitle={thread.title}
+				postDate={createdAtAgo}
+				createdBy={thread.user.username}
 			/>
 
+			<Pagination onChange={changePage} count={10} variant="outlined" shape="rounded" sx={{ margin: '24px 0' }} />
 
-			<ReplyBox />
+			{page === 1 && <Comment
+				id={1}
+				username={thread.user.username}
+				role={userRoles[thread.user.userRole]}
+				avatarUrl={thread.user.avatar}
+				commentTime={repliedTime(thread.createdAt)}
+				content={thread.content}
+			/>}
+
+			{replies.map((reply, index) =>
+				<Comment
+					key={reply.id}
+					id={index + 2}
+					username={reply.user.username}
+					role={userRoles[thread.user.userRole]}
+					avatarUrl={reply.user.avatar}
+					commentTime={repliedTime(reply.createdAt)}
+					content={reply.content}
+					onClickReplyButton={() => setReply(reply)}
+					parentComment={reply.reply}
+				/>
+			)}
+
+			<Pagination onChange={changePage} count={10} variant="outlined" shape="rounded" sx={{ margin: '24px 0' }} />
+
+			{reply &&
+				<Comment
+					id={reply.id}
+					username={reply.user.username}
+					role={userRoles[thread.user.userRole]}
+					avatarUrl={reply.user.avatar}
+					commentTime={repliedTime(reply.createdAt)}
+					content={reply.content}
+				/>
+			}
+			<ReplyBox onPost={onPost} username={user?.username} avatarUrl={user?.avatar} />
 
 		</>
 

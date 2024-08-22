@@ -76,14 +76,6 @@ const ForumItem: React.FC<ForumItemProps> = ({ forum, isLastItem }) => {
 						}}>
 							<ForumItemStatistic title={"Messages"} number={forum.messageStatistic || 0} />
 						</GridItemStyled>
-						{/* Latest thread component */}
-						<GridItemStyled item mobile={12} tablet={6} laptop={8}>
-							<ForumLatestThread
-								title={forum.latestThread ? forum.latestThread.title : ""}
-								time={forum.latestThread ? forum.latestThread.time : ""}
-								author={forum.latestThread ? forum.latestThread.author : ""}
-							/>
-						</GridItemStyled>
 					</Grid>
 				</GridItemStyled>
 			</Grid>

@@ -37,7 +37,6 @@ const ThreadList: React.FC = () => {
       setLoading(true)
       const url = `${threadApis.all}?page=${_page}`
       const res = await (await authAPIs()).get(url)
-      console.log(res.data)
       if (res.status === 200) {
         setThreads(res.data)
       } else {
